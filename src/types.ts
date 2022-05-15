@@ -1,9 +1,8 @@
 import { FrontMatterCache } from "obsidian";
 
 export interface MicroBlogFrontMatter extends FrontMatterCache {
-  url?: string;
-  tags?: string[];
-  tag?: string[];
+  previewUrl?: string;
+  publishedUrl?: string[];
   status?: string;
 }
 

@@ -7,8 +7,6 @@ export default class MicroBlogPlugin extends Plugin {
 	settings: MicroBlogPluginSettings;
 
 	async onload() {
-		console.info('loading obsidian-microblog plugin');
-
 		await this.loadSettings();
 
 		this.addCommand({

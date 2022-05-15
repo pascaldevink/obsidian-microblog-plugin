@@ -1,4 +1,5 @@
 import { App, MarkdownView, Notice, requestUrl, RequestUrlParam } from "obsidian";
+import { addFrontMatter, toStringFrontMatter } from "./frontmatter";
 import MicroBlogPlugin from "./main";
 import { MicroBlogFrontMatter } from "./types";
 
@@ -7,7 +8,6 @@ export class MicroBlogClient {
         private readonly app: App,
         private readonly plugin: MicroBlogPlugin,
       ) {
-        
       }
 
     async publishPost() {
@@ -47,12 +47,19 @@ export class MicroBlogClient {
             };
             request.body = 'h=entry&post-status=' + status + '&name=' + name + '&content=' + parsedContent
 
-            console.log(request)
-
             requestUrl(request).then(response => {
-                console.log(response)
-                console.log(response.json)
-                // @todo put publish url in frontmatter
+                const previewUrl = response.json.preview
+                const publishedUrl = response.json.url
+
+                const newFrontMatter = addFrontMatter(frontMatter, {
+                    previewUrl: previewUrl,
+                    publishedUrl: publishedUrl,
+                });
+
+                const frontMatterString = toStringFrontMatter(newFrontMatter);
+                const newFileContent = `${frontMatterString}${fileContent.slice(frontMatter.position.end.offset)}`;
+
+                this.app.vault.modify(activeView.file, newFileContent);
             })
 
         } catch (ex: any) {
