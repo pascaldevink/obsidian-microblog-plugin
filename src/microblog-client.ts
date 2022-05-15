@@ -35,7 +35,7 @@ export class MicroBlogClient {
             const parsedContent = fileContent
                 .slice(frontMatter.position.end.offset)
                 .replace(/^<!--.*-->$/ms, '') // remove comments
-                .replace(/\#[\w/]+/, '') // remove tags
+                .replace(/#[\w/]+/, '') // remove tags
                 .trim();
 
             const request: RequestUrlParam = {
@@ -62,9 +62,9 @@ export class MicroBlogClient {
                 this.app.vault.modify(activeView.file, newFileContent);
             })
 
-        } catch (ex: any) {
-            console.warn(ex);
-            new Notice(ex.toString());
+        } catch (exception) {
+            console.warn(exception);
+            new Notice(exception.toString());
         }
     }
 }

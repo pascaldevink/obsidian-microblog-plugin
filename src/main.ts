@@ -13,16 +13,15 @@ export default class MicroBlogPlugin extends Plugin {
 			id: 'obsidian-microblog-publish',
 			name: 'Publish to Micro.blog',
 			callback: () => {
-			  new MicroBlogClient(this.app, this).publishPost();
+				new MicroBlogClient(this.app, this).publishPost();
 			},
-		  });
+		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new MicroBlogSettingTab(this.app, this));
 	}
 
 	onunload() {
-
 	}
 
 	async loadSettings() {
